@@ -1,0 +1,13 @@
+# Storing secrets
+.env
+
+# Node module
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# IDEs and editors
+.vscode/
