@@ -11,3 +11,6 @@ npm-debug.log*
 
 # IDEs and editors
 .vscode/
+
+# Test
+test.js
