@@ -12,24 +12,24 @@ const addEvent = async (req, res) => {
   }
 };
 
-const fetchEvents = async (req, res) => {
+const getEvents = async (req, res) => {
   try {
     const events = await getAllEvents();
     res.json(events);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Failed to fetch events' });
+    res.status(500).json({ message: 'Failed to get events' });
   }
 };
 
-const fetchEvent = async (req, res) => {
+const getEvent = async (req, res) => {
   try {
     const event = await getEventById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
     res.json(event);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Failed to fetch event' });
+    res.status(500).json({ message: 'Failed to get event' });
   }
 };
 
@@ -55,8 +55,8 @@ const deleteEventById = async (req, res) => {
 
 module.exports = {
   addEvent,
-  fetchEvents,
-  fetchEvent,
+  getEvents,
+  getEvent,
   updateEventById,
   deleteEventById,
 };
