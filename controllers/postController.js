@@ -1,4 +1,4 @@
-const { createPost, getAllPosts, getPostById, updatePost, deletePost } = require('../models/postModel');
+const { createPost, getAllPosts, getPostById, updatePost, deletePost, publishPost, unpublishPost } = require('../models/postModel');
 
 const addPost = async (req, res) => {
     try {
@@ -46,10 +46,30 @@ const deletePostById = async (req, res) => {
     }
 };
 
+const publishPostById = async (req, res) => {
+    try {
+        const post = await publishPost(req.params.id);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({ message: 'Error publishing post', error: err.message});
+    }
+}
+
+const unpublishPostById = async (req, res) => {
+    try {
+        const post = await unpublishPost(req.params.id);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({ message: 'Error unpublishing post', error: err.message});
+    }
+}
+
 module.exports = {
     addPost,
     getPosts,
     getPost,
     updatePostById,
-    deletePostById
+    deletePostById,
+    publishPostById,
+    unpublishPostById
 };
