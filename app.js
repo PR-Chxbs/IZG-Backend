@@ -18,6 +18,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Test route
+app.get('/api/ping', (req, res) => {
+  res.send('pong');
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
