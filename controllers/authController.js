@@ -5,6 +5,7 @@ const { createUser, findUserByEmail } = require('../models/userModel');
 const register = async (req, res) => {
   try {
     const { username, first_name, second_name, gender, dob, phone_number, email, password, role } = req.body;
+    role = "User";
     
     // Check if user exists
     const existingUser = await findUserByEmail(email);
