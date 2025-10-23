@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 const createCategory = async (category) => {
-    const {name} = category;
+    const name = category;
   const result = await pool.query(
     'INSERT INTO categories (name) VALUES ($1) RETURNING *',
     [name]
