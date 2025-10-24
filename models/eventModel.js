@@ -2,11 +2,11 @@ const pool = require('../config/db');
 
 // Create
 const createEvent = async (event) => {
-    const { user_id, name, description, event_date } = event;
+    const { user_id, name, description, event_date, location, start_time, end_time, image_url } = event;
     const result = await pool.query(
-        `INSERT INTO events (user_id, name, description, event_date, created_at) VALUES
-         ($1, $2, $3, $4, NOW()) RETURNING *`,
-        [user_id, name, description, event_date]
+        `INSERT INTO events (user_id, name, description, event_date, location, start_time, end_time, image_url, created_at) VALUES
+         ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *`,
+        [user_id, name, description, event_date, location, start_time, end_time, image_url]
     );
     return result.rows[0];
 }
