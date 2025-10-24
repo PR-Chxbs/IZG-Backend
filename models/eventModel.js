@@ -19,12 +19,12 @@ const getAllEvents = async () => {
 
 // Update
 const updateEvent = async (event_id, event) => {
-    const { user_id, name, description, event_date } = event;
+    const { user_id, name, description, event_date, location, start_time, end_time, image_url } = event;
     const result = await pool.query(
         `UPDATE events SET
-        user_id=$1, name=$2, description=$3, event_date=$4
-        WHERE id=$5 RETURNING *`,
-        [user_id, name, description, event_date, event_id]
+        user_id=$1, name=$2, description=$3, event_date=$4, location=$5, start_time=$6, end_time=$7, image_url=$8
+        WHERE id=$9 RETURNING *`,
+        [user_id, name, description, event_date, location, start_time, end_time, image_url, event_id]
     );
     return result.rows[0];
 }
