@@ -65,8 +65,27 @@ const getPostById = async (id) => {
 };
 
 const getPostUsingSlug = async (slug) => {
-  const selectQuery = 'SELECT * FROM posts WHERE slug = $1;'
-  const result = await pool.query(selectQuery, [slug]);
+  const joinQuery = `
+    SELECT
+      p.id,
+      p.author_id,
+      u.first_name,
+      p.title,
+      p.slug,
+      p.content,
+      p.cover_image,
+      p.published,
+      p.published_at,
+      p.created_at,
+      p.updated_at
+    FROM
+      posts p
+    JOIN
+      users u ON p.author_id = u.id
+    WHERE
+      p.slug = $1;
+  `;
+  const result = await pool.query(joinQuery, [slug]);
   return result.rows[0];
 }
 
