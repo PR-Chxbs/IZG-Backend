@@ -14,13 +14,55 @@ const createPost = async (post) => {
 
 // Read
 const getAllPosts = async () => {
-  const result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+  const originalQuery = 'SELECT * FROM posts ORDER BY created_at DESC';
+  const joinQuery = `
+    SELECT
+      p.id,
+      p.author_id,
+      u.first_name,
+      p.title,
+      p.slug,
+      p.content,
+      p.cover_image,
+      p.published,
+      p.published_at,
+      p.created_at,
+      p.updated_at
+    FROM
+      posts p
+    JOIN
+      users u ON p.author_id = u.id
+    ORDER BY 
+      p.created_at DESC;
+  `;
+  const result = await pool.query(joinQuery);
   return result.rows;
 };
 
 
 const getPostById = async (id) => {
-  const result = await pool.query('SELECT * FROM posts WHERE id = $1', [id]);
+  const originalQuery = 'SELECT * FROM posts WHERE id = $1';
+  const joinQuery = `
+    SELECT
+      p.id,
+      p.author_id,
+      u.first_name,
+      p.title,
+      p.slug,
+      p.content,
+      p.cover_image,
+      p.published,
+      p.published_at,
+      p.created_at,
+      p.updated_at
+    FROM
+      posts p
+    JOIN
+      users u ON p.author_id = u.id
+    WHERE
+      u.id = $1;
+  `;
+  const result = await pool.query(joinQuery, [id]);
   return result.rows[0];
 };
 
