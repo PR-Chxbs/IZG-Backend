@@ -1,4 +1,4 @@
-const { createPost, getAllPosts, getPostById, updatePost, deletePost, publishPost, unpublishPost } = require('../models/postModel');
+const { createPost, getAllPosts, getPostById, getPostUsingSlug, updatePost, deletePost, publishPost, unpublishPost } = require('../models/postModel');
 
 const addPost = async (req, res) => {
     try {
@@ -27,6 +27,16 @@ const getPost = async (req, res) => {
         res.status(500).json({ message: 'Error fetching post', error: err.message });
     }
 };
+
+const getPostBySlug = async (req, res) => {
+    try {
+        const post = await getPostUsingSlug(req.params.slug);
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching post', error: err.message });
+    }
+}
 
 const updatePostById = async (req, res) => {
     try {
@@ -68,6 +78,7 @@ module.exports = {
     addPost,
     getPosts,
     getPost,
+    getPostBySlug,
     updatePostById,
     deletePostById,
     publishPostById,

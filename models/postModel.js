@@ -14,7 +14,6 @@ const createPost = async (post) => {
 
 // Read
 const getAllPosts = async () => {
-  const originalQuery = 'SELECT * FROM posts ORDER BY created_at DESC';
   const joinQuery = `
     SELECT
       p.id,
@@ -41,7 +40,6 @@ const getAllPosts = async () => {
 
 
 const getPostById = async (id) => {
-  const originalQuery = 'SELECT * FROM posts WHERE id = $1';
   const joinQuery = `
     SELECT
       p.id,
@@ -65,6 +63,12 @@ const getPostById = async (id) => {
   const result = await pool.query(joinQuery, [id]);
   return result.rows[0];
 };
+
+const getPostUsingSlug = async (slug) => {
+  const selectQuery = 'SELECT * FROM posts WHERE slug = $1;'
+  const result = await pool.query(selectQuery, [slug]);
+  return result.rows[0];
+}
 
 // Update
 const updatePost = async (post_id, post) => {
@@ -112,6 +116,7 @@ module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  getPostUsingSlug,
   updatePost,
   deletePost,
   publishPost,
