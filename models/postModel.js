@@ -58,7 +58,7 @@ const getPostById = async (id) => {
     JOIN
       users u ON p.author_id = u.id
     WHERE
-      u.id = $1;
+      p.id = $1;
   `;
   const result = await pool.query(joinQuery, [id]);
   return result.rows[0];
