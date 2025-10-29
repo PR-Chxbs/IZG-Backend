@@ -1,4 +1,4 @@
-const { createStock, getAllStock, getStockById, updateStock, deleteStock } = require('../models/stockModel');
+const { createStock, getAllStock, getStockById, updateStock, updateStockPartial, deleteStock } = require('../models/stockModel');
 
 const addStock = async (req, res) => {
     try {
@@ -37,6 +37,29 @@ const updateStockItemById = async (req, res) => {
     }
 };
 
+const patchStock = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ message: "No fields provided to update." });
+    }
+
+    const updatedStock = await updateStockPartial(id, updateData);
+
+    if (!updatedStock) {
+      return res.status(404).json({ message: "Stock not found." });
+    }
+
+    return res.status(200).json(updatedStock);
+
+  } catch (err) {
+    console.error("PATCH ERROR:", err);
+    return res.status(500).json({ message: "Server error." });
+  }
+};
+
 const deleteStockItemById = async (req, res) => {
     try {
         await deleteStock(req.params.id);
@@ -51,5 +74,6 @@ module.exports = {
     getStockItems,
     getStockItem,
     updateStockItemById,
-    deleteStockItemById
+    deleteStockItemById,
+    patchStock
 };

@@ -69,6 +69,30 @@ const updateStock = async (id, stock) => {
   return result.rows[0];
 };
 
+const updateStockPartial = async (id, data) => {
+  // Build dynamic SET clause
+  const fields = [];
+  const values = [];
+
+  Object.entries(data).forEach(([key, value], index) => {
+    fields.push(`${key} = $${index + 1}`);
+    values.push(value);
+  });
+
+  // Add ID as last param
+  values.push(id);
+
+  const query = `
+    UPDATE stock
+    SET ${fields.join(', ')}
+    WHERE id = $${values.length}
+    RETURNING *;
+  `;
+
+  const result = await pool.query(query, values);
+  return result.rows[0];
+};
+
 const deleteStock = async (id) => {
   await pool.query('DELETE FROM stock WHERE id = $1', [id]);
 };
@@ -79,4 +103,5 @@ module.exports = {
   getStockById,
   updateStock,
   deleteStock,
+  updateStockPartial
 };
