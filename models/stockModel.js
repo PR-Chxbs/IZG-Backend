@@ -12,12 +12,48 @@ const createStock = async (stock) => {
 };
 
 const getAllStock = async () => {
-  const result = await pool.query('SELECT * FROM stock ORDER BY updated_at DESC');
+  const originalQuery = 'SELECT * FROM stock ORDER BY updated_at DESC';
+  const joinQuery = `
+    SELECT
+      s.id,
+      s.category_id,
+      s.name,
+      c.name AS category_name,
+      s.quantity,
+      s.image,
+      s.updated_at,
+      s.created_at
+    FROM
+      stock s
+    JOIN
+      categories c ON s.category_id = c.id
+    ORDER BY 
+      s.updated_at DESC;
+  `;
+  const result = await pool.query(joinQuery);
   return result.rows;
 };
 
 const getStockById = async (id) => {
-  const result = await pool.query('SELECT * FROM stock WHERE id = $1', [id]);
+  const originalQuery = 'SELECT * FROM stock WHERE id = $1';
+  const joinQuery = `
+    SELECT
+      s.id,
+      s.category_id,
+      s.name,
+      c.name AS category_name,
+      s.quantity,
+      s.image,
+      s.updated_at,
+      s.created_at
+    FROM
+      stock s
+    JOIN
+      categories c ON s.category_id = c.id
+    WHERE
+      s.id = $1;
+  `;
+  const result = await pool.query(joinQuery, [id]);
   return result.rows[0];
 };
 
