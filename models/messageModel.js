@@ -13,7 +13,7 @@ const createMessage = async (message) => {
 }
 
 const getMessages = async () => {
-    const getQuery = `SELECT * FROM messages;`
+    const getQuery = `SELECT * FROM messages ORDER BY sent_at DESC;`
     const result = await pool.query(getQuery);
     
     return result.rows;
