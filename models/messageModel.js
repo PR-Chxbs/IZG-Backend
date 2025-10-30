@@ -12,7 +12,7 @@ const createMessage = async (message) => {
     return result.rows[0];
 }
 
-const getMessages = async (id) => {
+const getMessages = async () => {
     const getQuery = `SELECT * FROM messages;`
     const result = await pool.query(getQuery);
     
