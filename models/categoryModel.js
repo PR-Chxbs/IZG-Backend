@@ -20,7 +20,7 @@ const getCategoryById = async (id) => {
 };
 
 const updateCategory = async (id, category) => {
-  const {name} = category;
+  const name = category;
   const result = await pool.query(
     'UPDATE categories SET name = $1 WHERE id = $2 RETURNING *',
     [name, id]
