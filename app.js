@@ -11,6 +11,7 @@ const postRoutes = require('./routes/postRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const stockRoutes = require('./routes/stockRoutes');
+const messageRoutes = require('./routes/messageRoutes');
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use('/api/posts', postRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/stock', stockRoutes);
+app.use('/api/messages', messageRoutes);
 
 module.exports = app;
